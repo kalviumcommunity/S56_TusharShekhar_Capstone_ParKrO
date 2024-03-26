@@ -32,21 +32,15 @@ ParKrO is a pioneering web-based platform designed to transform parking manageme
 
 3. **Add Your Vehicle**: Enter your vehicle details and receive your unique QR code for parking management.
 
-### Usage
-
-- **To Report a Parking Issue**: Simply scan the QR code on the vehicle causing the issue and send a notification through the platform.
-- **To Reserve a Parking Space**: Scan the parking area's QR code to reserve a space for your vehicle.
-- **To Rent Out Your Parking Space**: List your parking space on ParKrO, set your terms, and share your space's QR code with potential renters.
-
-## Conclusion
-
-ParKrO leverages QR code technology to offer a novel solution to parking management and issues, emphasizing privacy, efficiency, and community collaboration. By simplifying the parking process, ParKrO aims to enhance the parking experience for everyone involved.
-
-## Tech Stacks
+### Tech Stacks
 - React
 - Express
 - MongoDB
 - Node.js
+
+## Conclusion
+
+ParKrO leverages QR code technology to offer a novel solution to parking management and issues, emphasizing privacy, efficiency, and community collaboration. By simplifying the parking process, ParKrO aims to enhance the parking experience for everyone involved.
 
 ## Project Timeline
 
