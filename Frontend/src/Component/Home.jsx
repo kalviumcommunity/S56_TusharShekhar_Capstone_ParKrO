@@ -6,15 +6,18 @@ import Instagram from '../assets/Instagram.png'
 import Facebook from '../assets/Facebook.png'
 import LinkedIn from '../assets/LinkedIn.png'
 import YouTube from '../assets/YouTube.png'
+import Parkrologo from '../assets/Parkrologo.png'
+import { Link } from 'react-router-dom'
 const Home = () => {
   return (
     <div>
       <div className='Navbar'><ul>
+        <img src={Parkrologo} className='logo'></img>
         <li>Home</li>
         <li>Popular</li>
         <li>About Us</li>
         <li>FAQ</li>
-        <li className='login'>Login/SignUp</li>
+        <li className='logins '><Link to='/login'>Login/SignUp</Link></li>
       </ul>
       </div>
       <div className='intro'>
