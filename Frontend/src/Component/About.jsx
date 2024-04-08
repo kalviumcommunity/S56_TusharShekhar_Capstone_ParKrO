@@ -15,7 +15,7 @@ const About = () => {
     <div>
       <div className='Navbar'><ul>
       <Link to='/'>
-        <li><img src={Parkrologo} className='logo'></img></li>
+        <li><img src={Parkrologo} className='logo' alt='Parkro Logo'></img></li>
         </Link>
         <Link to='/'>
         <li>Home</li>
