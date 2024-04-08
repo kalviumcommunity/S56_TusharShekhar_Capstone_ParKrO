@@ -33,6 +33,12 @@ ul{
 li{
     height: 5vw;
     /* margin-top: -1.4vw; */
+   
+}
+a:-webkit-any-link {
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .one{
@@ -375,4 +381,95 @@ margin-top: -1vw;
     width: 99vw;
     margin-top: 6vw;
     margin-left: -5vw;
+}
+/* ABOUT PAGE */
+.about{
+    color: #FFCD4C; 
+    text-shadow: 7px 6px 0px #A11FDF;
+    font-family: Mulish;
+    font-size: 101px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 10.1px;
+    -webkit-text-stroke-width: 1.5px; 
+    -webkit-text-stroke-color: #000; 
+    margin-left: 6vw;
+    margin-top: 1vw;
+}
+.line{
+    width: 41vw;
+    height: 1vw;
+    color: #000;
+    border-color: black;
+    background-color: black;
+    margin-left: 6vw;
+    margin-top: -5vw;
+}
+.about1{
+    margin-left: 60vw;
+    width: 35vw;
+    height: 35vw;
+}
+.teparkro{
+    width: 52vw;
+    height: 32vw;
+    background-color: rgba(255, 205, 76, 0.37);
+    box-shadow: 7px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    margin-top: -35vw;
+    margin-left: 2vw;
+    /* text-align: center; */
+}
+.prkro{
+    color: rgb(101 79 22);
+font-family: Mulish;
+font-size: 42px;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+letter-spacing: 1.26px;
+margin-top: 3vw;
+margin-left: 3vw;
+}
+.profile{
+    margin-top: 16vw;
+    margin-left: 12vw;
+    width: 13vw;
+}
+.protext{
+    width: 58vw;
+    height: 16vw;
+    background-color: rgba(255, 205, 76, 0.37);
+    box-shadow: 7px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    margin-top: -19vw;
+    margin-left: 36vw;
+
+}
+.automaticall{
+    color: rgb(101 79 22);
+    font-family: Mulish;
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 1.26px;
+    margin-top: 3vw;
+    margin-left: 3vw;
+}
+.name{
+    margin-left: 10.1vw;
+    margin-top: 0vw;
+    color: #252527;
+    font-family: Mulish;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+.carab{
+    margin-left: 11vw;
+    margin-top: -18vw;
 }
