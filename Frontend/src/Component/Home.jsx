@@ -15,8 +15,8 @@ const Home = () => {
         <img src={Parkrologo} className='logo'></img>
         <li>Home</li>
         <li>Popular</li>
-        <li>About Us</li>
-        <li>FAQ</li>
+        <li><Link to='/about'>About Us</Link></li>
+        <li><Link to='/faq'>FAQ</Link></li>
         <li className='logins '><Link to='/login'>Login/SignUp</Link></li>
       </ul>
       </div>
