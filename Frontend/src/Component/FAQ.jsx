@@ -45,7 +45,7 @@ const FAQ = () => {
         </div>
       </div>
       <div>
-        <img src={faq1} className='faq1'></img>
+        <img src={faq1} className='faq1' alt='faq1'></img>
       </div>
       
       <div>
