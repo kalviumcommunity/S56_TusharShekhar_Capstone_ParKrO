@@ -5,8 +5,6 @@ body{
 
 }
 
-
-
 .Navbar{
    display: flex;
    background-color: white;
@@ -29,6 +27,11 @@ ul{
     font-family: 'Action', sans-serif;
     font-weight: 500;                            
     /* font-family: ; */
+}
+.home:hover{
+    background-color: #5AB331;
+    width: 5.5vw;
+    height: 4vw
 }
 li{
     height: 5vw;
@@ -472,4 +475,171 @@ margin-left: 3vw;
 .carab{
     margin-left: 11vw;
     margin-top: -18vw;
+}
+
+
+/* FAQ PAGE */
+
+.mainbox{
+    background-color: #FFF;
+box-shadow: 4px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.faq{
+    color: #FFCD4C; 
+    text-shadow: 7px 6px 0px #A11FDF;
+    font-family: Mulish;
+    font-size: 101px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 10.1px;
+    -webkit-text-stroke-width: 1.5px; 
+    -webkit-text-stroke-color: #000; 
+    margin-left: 7vw;
+    margin-top: 1vw;
+}
+.faqline{
+    width: 32vw;
+    height: 1vw;
+    color: #000;
+    border-color: black;
+    background-color: black;
+    margin-left: 2vw;
+    margin-top: -5vw;
+}
+.que1{
+    color: #252527;
+font-family: Mulish;
+font-size: 44px;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+letter-spacing: 5.72px;
+margin-left: 2vw;
+width: 45vw;
+}
+.bans1{
+    width: 45vw;
+    height: 22vw;
+    background-color: rgba(255, 205, 76, 0.37);
+    box-shadow: 7px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    margin-top: 2vw;
+    margin-left: 2vw;
+}
+.ans1{
+    color: rgb(101 79 22);
+    font-family: Mulish;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 1.26px;
+    margin-top: 3vw;
+    margin-left: 3vw;
+}
+.faq1{
+    margin-left: 60vw;
+    margin-top: -39vw;
+    width: 32vw;
+
+}
+.que2{
+    color: #252527;
+font-family: Mulish;
+font-size: 44px;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+letter-spacing: 5.72px;
+margin-left: 41vw;
+margin-top: 12vw;
+/* width: 45vw; */
+}
+.bans2{
+    width: 53vw;
+    height: 14vw;
+    background-color: rgba(255, 205, 76, 0.37);
+    box-shadow: 7px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    margin-top: 2vw;
+    margin-left: 42vw;
+}
+.ans2{
+    color: rgb(101 79 22);
+    font-family: Mulish;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 1.26px;
+    margin-top: 3vw;
+    margin-left: 3vw;
+}
+.faq2{
+    margin-left: 11vw;
+    margin-top: -45vw;
+    width: 22vw;
+}
+.query{
+    border-radius: 17px;
+    background-color: #FFCD4C;
+    box-shadow: 6px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: 53vw;
+    margin-left: 5vw;
+    margin-top: 17vw;
+}
+.querbox{
+    margin-left: 42vw;
+    background-color: white;
+    margin-top: -37vw;
+    width: 43vw;
+    height: 45vw;
+    border-radius: 2vw;
+}
+.querbox input{
+    margin-left: 9vw;
+    margin-top: 3vw;
+    text-align: center;
+    font-family: "Action Sans";
+}
+.sendbtn{
+    border-radius: 24px;
+    border: 1px solid #000;
+    background: #0F0F0F;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 6.6vw;
+    width: 30vw;
+    height: 3vw;
+    color: #FDFDFF;
+    text-align: center;
+    font-family: "Action Sans";
+    font-size: 1.5vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.96px;
+    margin-top: 3vw;
+
+}
+.faq3{
+    width: 29vw;
+    margin-left: 6vw;
+    margin-top: 4vw;
+
+}
+.got{
+    color: #252527;
+text-align: center;
+font-family: Mulish;
+font-size: 54px;
+font-style: normal;
+font-weight: 1000;
+line-height: normal;
+letter-spacing: 1.62px;
+}
+.faq4{
+    margin-left: 14vw;
 }
