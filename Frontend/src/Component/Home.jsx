@@ -33,7 +33,7 @@ const Home = () => {
         <img src={main} className='img1'></img>
       </div>
      <div className='btn'>
-      <button className='btn1'>Generate OR Code</button>
+      <button className='btn1'>Generate QR Code</button>
       <button className='btn2'>Contact Us </button>
      </div>
      <div className='unlock'>

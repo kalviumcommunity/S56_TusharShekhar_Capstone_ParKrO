@@ -17,9 +17,11 @@ const About = () => {
       <Link to='/'>
         <li><img src={Parkrologo} className='logo' alt='Parkro Logo'></img></li>
         </Link>
+        <div className='home'>
         <Link to='/'>
         <li>Home</li>
         </Link>
+        </div>
         <li>Popular</li>
         <li><Link to='/about'>About Us</Link></li>
         <li><Link to={'/faq'}>FAQ</Link></li>
