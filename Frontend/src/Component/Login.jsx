@@ -25,7 +25,7 @@ const Login = () => {
                 <br></br>elevate your efficiency with Parkro's 
                 <br></br>solution. Start for free.</h3>
             <input type='text' placeholder='Username' className='username'></input>
-            <input type='text' placeholder='Password'></input>
+            <input type='password' placeholder='Password'></input>
             <h5 className='forgot'>Forgot Password?</h5>
             <button type='text' className='logbtn'> Login</button>
             <div className='left'><img src={line}></img></div>
