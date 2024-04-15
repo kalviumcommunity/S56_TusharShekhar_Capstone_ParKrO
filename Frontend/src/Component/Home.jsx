@@ -17,7 +17,7 @@ const Home = () => {
         <li>Popular</li>
         <li><Link to='/about'>About Us</Link></li>
         <li><Link to='/faq'>FAQ</Link></li>
-        <li className='logins '><Link to='/login'>Login/SignUp</Link></li>
+        <li className='logins '><Link to='/login'>Login</Link></li>
       </ul>
       </div>
       <div className='intro'>
