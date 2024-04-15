@@ -1,32 +1,42 @@
 const express = require('express');
-const app = express();
-const port = 3000;
-const uri = process.env.URI;
-const {UserDetails} = require('./User.js')
+const cors = require('cors');
+const connectToDB = require('./db'); 
+const { UserDetails } = require('./User');
+const bcrypt = require('bcrypt');
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
+const app = express();
+const port = 3200;
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/get', async (req, res) => {
+  try {
+    const users = await UserDetails.find();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-app.get('/login',async(req,res)=>{
-  try{
-    const data = await UserDetails.find()
-    res.json(data);
+app.post('/signup', async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10); 
+    const newUser = new UserDetails({
+      email: req.body.email,
+      password: hashedPassword
+    });
+    const savedUser = await newUser.save();
+    res.status(200).json(savedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  catch(error){
-    console.log(error)
-  }
-})
-app.post('/addUsers',async(req,res)=>{
-  try{
-    const response = await UserDetails.create(req.body)
-    res.status(200).json(response);
-  }
-  catch(error){
-    console.log(error);
-  }
-})
+});
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+connectToDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
 });

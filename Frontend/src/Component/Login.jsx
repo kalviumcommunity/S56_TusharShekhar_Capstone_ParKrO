@@ -36,9 +36,10 @@ const Login = () => {
                 <img src={Apple} className='apple'></img>
                 <img src={Facebook} className='logface'></img>
             </div>
-            <h5 className='not'>Not a member ? </h5> 
+            <h5 className='not'>Not a member ? </h5>
+            <Link to='/signup'>
             <h5 className='sign'>Sign Up</h5>
-            
+            </Link>
         </div>
         <img src={img} className='logimg'></img>
      </div>
