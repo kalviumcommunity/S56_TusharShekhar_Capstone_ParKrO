@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 3200;
 const uri = process.env.URI;
 const {UserDetails} = require('./User.js')
 
