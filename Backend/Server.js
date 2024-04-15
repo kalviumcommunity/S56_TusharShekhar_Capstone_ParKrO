@@ -7,8 +7,20 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3200;
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100, 
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/signup', limiter)
+
 app.use(cors());
 app.use(express.json());
+
+const validateSignup = [
+  body('email').isEmail().withMessage('Invalid email address'),
+  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
+];
 
 app.get('/get', async (req, res) => {
   try {
@@ -21,6 +33,12 @@ app.get('/get', async (req, res) => {
 });
 
 app.post('/signup', async (req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10); 
     const newUser = new UserDetails({
