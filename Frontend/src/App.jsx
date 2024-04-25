@@ -7,6 +7,7 @@ import About from './Component/About'
 import FAQ from './Component/FAQ'
 import SignUp from './Component/SignUp'
 import {Route,Routes } from 'react-router-dom'
+import QRcode from './Component/QRcode'
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
       <Route path='/about' element={<About/>}></Route>
       <Route path='/faq' element={<FAQ/>}></Route>
       <Route path='/signup' element={<SignUp/>}></Route>
+      <Route path='/generate' element={<QRcode/>}></Route>
     </Routes>
     </>
   )
