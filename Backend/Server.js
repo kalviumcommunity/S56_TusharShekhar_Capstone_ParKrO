@@ -3,7 +3,8 @@ const cors = require('cors');
 const connectToDB = require('./db'); 
 const { UserDetails } = require('./User');
 const bcrypt = require('bcrypt');
-
+const { body, validationResult } = require('express-validator');
+const rateLimit = require('express-rate-limit')
 const app = express();
 const port = 3200;
 
@@ -12,7 +13,7 @@ const limiter = rateLimit({
   max: 100, 
   message: 'Too many requests from this IP, please try again later.'
 });
-app.use('/signup', limiter)
+app.use('/signup',limiter)
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +25,7 @@ const validateSignup = [
 
 app.get('/get', async (req, res) => {
   try {
-    const users = await UserDetails.find();
+    const users = await UserDetails.find({});
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -32,7 +33,7 @@ app.get('/get', async (req, res) => {
   }
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/signup',validateSignup, async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
