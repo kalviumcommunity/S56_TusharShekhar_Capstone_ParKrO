@@ -5,6 +5,15 @@ const UserDetail = new mongoose.Schema({
     password:String
 })
 
-const UserDetails = mongoose.model("username" , UserDetail )
+const QueryDetail =  new mongoose.Schema({
+    fullname:String,
+    email:String,
+    MobileNo:String,
+    City:String,
+    query:String
+})
 
-module.exports = {UserDetails}
+const UserDetails = mongoose.model("username" , UserDetail )
+const QueryDetails = mongoose.model("queries" , QueryDetail)
+
+module.exports = {UserDetails,QueryDetails}

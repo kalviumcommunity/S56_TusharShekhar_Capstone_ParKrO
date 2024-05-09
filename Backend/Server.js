@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails } = require('./User');
+const { UserDetails ,QueryDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
@@ -23,6 +23,14 @@ const validateSignup = [
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
 ];
 
+const validateQuerry = [
+  body('email').isEmail().withMessage('Invalid email address'),
+  body('fullname').not().isEmpty().withMessage('Full name is required'),
+  body('MobileNo').isMobilePhone('any').withMessage('Invalid MobileNo'),
+  body('City').not().isEmpty().withMessage('City is Required'), 
+  body('query').not().isEmpty().withMessage('Query text is required')
+]
+
 app.get('/get', async (req, res) => {
   try {
     const users = await UserDetails.find({});
@@ -32,6 +40,18 @@ app.get('/get', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.get('/getQuery',async(req,res)=>{
+  try{
+    const queryUser = await QueryDetails.find({})
+    res.json(queryUser);
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
 
 app.post('/signup',validateSignup, async (req, res) => {
 
@@ -53,6 +73,29 @@ app.post('/signup',validateSignup, async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.post('/query' ,validateQuerry, async(req,res)=>{
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()});
+  }
+  try{
+    const newQuery =  new QueryDetails({
+      fullname:req.body.fullname,
+      email:req.body.email,
+      MobileNo:req.body.MobileNo,
+      City:req.body.City,
+      query:req.body.query
+    })
+    const userQuery = await newQuery.save();
+    res.status(200).json(userQuery);
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
 
 connectToDB().then(() => {
   app.listen(port, () => {
