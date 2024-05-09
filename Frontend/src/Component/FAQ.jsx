@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Parkrologo from '../assets/Parkrologo.png'
 import faq1 from '../assets/faq1.png'
 import faq2 from '../assets/faq2.png'
@@ -9,8 +9,74 @@ import LinkedIn from '../assets/LinkedIn.png'
 import YouTube from '../assets/YouTube.png'
 import img from '../assets/img.png'
 import { Link } from 'react-router-dom'
+import { useState} from 'react'
+import axios from 'axios'
+
+
 
 const FAQ = () => {
+const[fullname,setFullname] = useState("");
+const[email,setEmail] = useState("");
+const[MobileNo,setMobileNo] = useState("");
+const[City,setCity] = useState("");
+const[query,setQuery] = useState("");
+const [queries,setQueries] = useState([]);
+const [successMessage, setSuccessMessage] = useState('');
+const [errorMessage, setErrorMessage] = useState('');
+
+useEffect(()=>{
+  const fetchQueries = async()=>{
+    try{
+      const resp = await axios.get('http://localhost:3200/getQuery');
+      setQueries(resp.data)
+      // console.log(resp.data);
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  fetchQueries();
+},[])
+const handleSubmit = async(e)=>{
+  e.preventDefault();
+
+  if (!/^\w+([\.-]?\w+)*@gmail\.com$/.test(email)) {
+    setErrorMessage("Email must be a Gmail account (example@gmail.com)");
+    return;
+  }
+
+  if (MobileNo.length !== 10) {
+    setErrorMessage("Mobile number must be exactly 10 digits long");
+    return;
+  }
+
+  try{
+    const response = await axios.post('http://localhost:3200/query',{
+      fullname,
+      email,
+      MobileNo,
+      City,
+      query
+    });
+    setQueries([...queries, response.data]);
+    setSuccessMessage('Query Submitted successfully!');
+    setErrorMessage('');
+    setFullname('');
+    setEmail('');
+    setMobileNo('');
+    setCity('');
+    setQuery('');
+
+  }
+  catch(error){
+    setSuccessMessage('');
+    setErrorMessage('Failed to submit your query');
+    console.log(error);
+  }
+}
+
+
   return (
     <div>
       <div className='Navbar'><ul>
@@ -62,6 +128,14 @@ const FAQ = () => {
       <div>
         <img src={faq2} className='faq2'></img>
       </div>
+
+      <div>
+        {queries.map((item) => (
+          <div key={item._id}>
+            <p>{item.query}</p>
+          </div>
+        ))}
+      </div>
       
       <div className='query'>
         
@@ -70,13 +144,17 @@ const FAQ = () => {
         <img src={carlogin} className='faq3'></img>
       </div>
       <div className='querbox'>
-      <div><img src={Parkrologo} className='faq4'></img></div>
-        <input type='text' placeholder='Your Full Name'></input>
-        <input type='text' placeholder='Your Email address '></input>
-        <input type='text' placeholder='Your Mobile Number'></input>
-        <input type='text' placeholder='Your City'></input>
-        <input type='text' placeholder='Your Query'></input>
-        <button type='text' className='sendbtn'>Send</button>
+       <div><img src={Parkrologo} className='faq4'></img></div>
+       <form onSubmit={handleSubmit}>
+        <input type='text' placeholder='Your Full Name' value={fullname} onChange={(e)=>setFullname(e.target.value)}></input>
+        <input type='text' placeholder='Your Email address ' value={email} onChange={(e)=>setEmail(e.target.value)}></input>
+        <input type='text' placeholder='Your Mobile Number' value={MobileNo} onChange={(e)=>setMobileNo(e.target.value)}></input>
+        <input type='text' placeholder='Your City' value={City} onChange={(e)=>setCity(e.target.value)}></input>
+        <input type='text' placeholder='Your Query' value={query} onChange={(e)=>setQuery(e.target.value)}></input>
+        <button type='submit' className='sendbtn'>Send</button>
+        </form>
+        {successMessage && <div className="successMessage">{successMessage}</div>}
+          {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       </div>
       </div>
       <div className='footer'>
