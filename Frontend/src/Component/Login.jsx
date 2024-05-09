@@ -7,6 +7,7 @@ import Facebook from '../assets/Facebook.png'
 import Apple from '../assets/Apple.png'
 import img from '../assets/img.png'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 const Login = () => {

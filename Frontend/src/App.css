@@ -28,11 +28,10 @@ ul{
     font-weight: 500;                            
     /* font-family: ; */
 }
-.home:hover{
-    background-color: #5AB331;
+/* .home:hover{
     width: 5.5vw;
     height: 4vw
-}
+} */
 li{
     height: 5vw;
     /* margin-top: -1.4vw; */
@@ -642,4 +641,67 @@ letter-spacing: 1.62px;
 }
 .faq4{
     margin-left: 14vw;
+}
+
+/* Generate page */
+
+.generatebox{
+    border-radius: 17px;
+    background-color: #FFCD4C;
+    box-shadow: 6px 9px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: 50vw;
+    margin-left: 5vw;
+    margin-top: 2vw;
+}
+.Generate{
+    font-family: Mulish;
+    text-align: center;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 1000;
+    color: #252527;
+    line-height: normal;
+    letter-spacing: 1.44px;
+    /* margin-top: 1vw; */
+}
+.genqrcode{
+    margin-left: 4vw;
+    margin-top: 2vw;
+    width: 33%;
+}
+.mansitting{
+    margin-top: -18vw;
+}
+.genbox{
+    margin-left: 47vw;
+    margin-top: -40vw;
+    background-color: white;
+    width: 34vw;
+    height: 36vw;
+    position: absolute;
+    border-radius: 1vw;
+    box-shadow: 8px 12px 4px 0px rgba(0, 0, 0, 0.25);
+}
+ .generatebtn{
+    border-radius: 24px;
+    border: 1px solid #000;
+    background: #0F0F0F;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 3.6vw;
+    width: 26vw;
+    height: 3vw;
+    color: #FDFDFF;
+    text-align: center;
+    font-family: "Action Sans";
+    font-size: 1.5vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.96px;
+    margin-top: 2vw;
+}
+.genimg{
+    width: 100%;
+    margin-top: 1vw;
 }
