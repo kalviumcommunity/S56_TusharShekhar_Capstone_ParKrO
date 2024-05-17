@@ -37,6 +37,10 @@ li{
     /* margin-top: -1.4vw; */
    
 }
+.profilei{
+    width: 3.5vw;
+    height: 3vw;
+}
 a:-webkit-any-link {
     color: black;
     cursor: pointer;

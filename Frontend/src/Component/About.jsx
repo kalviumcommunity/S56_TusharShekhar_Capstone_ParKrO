@@ -8,6 +8,7 @@ import Facebook from '../assets/Facebook.png'
 import LinkedIn from '../assets/LinkedIn.png'
 import YouTube from '../assets/YouTube.png'
 import img from '../assets/img.png'
+import profilei from '../assets/profilei.png'
 import { Link } from 'react-router-dom'
 
 const About = () => {
@@ -26,6 +27,9 @@ const About = () => {
         <li><Link to='/about'>About Us</Link></li>
         <li><Link to={'/faq'}>FAQ</Link></li>
         <li className='logins '><Link to='/login'>Login</Link></li>
+        <Link to='/profiles'>
+          <img src={profilei} className='profilei'></img>
+          </Link>
       </ul>
       </div>
       <h1 className='about'>ABOUT US</h1>

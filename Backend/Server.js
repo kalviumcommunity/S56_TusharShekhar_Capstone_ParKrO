@@ -69,12 +69,12 @@ app.post('/signup',validateSignup, async (req, res) => {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-app.post('/query' ,validateQuerry, async(req,res)=>{
+app.post('/query' ,limiter,validateQuerry, async(req,res)=>{
 
   const errors = validationResult(req);
   if(!errors.isEmpty()){

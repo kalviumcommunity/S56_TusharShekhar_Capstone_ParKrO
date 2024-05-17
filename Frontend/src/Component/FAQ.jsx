@@ -8,6 +8,7 @@ import Facebook from '../assets/Facebook.png'
 import LinkedIn from '../assets/LinkedIn.png'
 import YouTube from '../assets/YouTube.png'
 import img from '../assets/img.png'
+import profilei from '../assets/profilei.png'
 import { Link } from 'react-router-dom'
 import { useState} from 'react'
 import axios from 'axios'
@@ -90,6 +91,9 @@ const handleSubmit = async(e)=>{
         <li><Link to='/about'>About Us</Link></li>
         <li>FAQ</li>
         <li className='logins '><Link to='/login'>Login</Link></li>
+        <Link to='/profiles'>
+          <img src={profilei} className='profilei'></img>
+          </Link>
       </ul>
       </div>
       <div>
