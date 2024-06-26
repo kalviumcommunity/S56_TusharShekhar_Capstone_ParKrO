@@ -709,3 +709,58 @@ letter-spacing: 1.62px;
     width: 100%;
     margin-top: 1vw;
 }
+/* .generated-qr-code{
+    margin-left: 31vw;
+    margin-top: -8vw;
+} */
+
+
+
+/* profile page */
+.Hello{
+    color: #FFCD4C;
+    text-shadow: 7px 6px 0px #A11FDF;
+    /* -webkit-text-stroke-width: 2; */
+    /* border-color: #0F0E0E; */
+    -webkit-text-stroke-color: #000;
+    font-family: Mulish;
+    font-size: 88px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 13.7px;
+    margin-left: 24vw;
+    margin-top: 0vw;
+}
+.firstbox{
+    background-color: #FFCD4C;
+    border-radius: 24px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    height: fit-content;
+    margin-left: 91vw;
+    margin-top: -9vw;
+}
+.secondbox{
+    background-color: #FFCD4C;
+    border-radius: 17px;
+    box-shadow: 6px 9px 4px 0px #A11FDF;
+    width: 20vw;
+    height: fit-content;
+    /* align-items: cente; */
+    margin-left: 3vw;
+    margin-top: 2vw;
+}
+.firstimg{
+    width: 3vw;
+}
+
+.thirdbox{
+    padding: 5vw;
+    background-color: #A11FDF;
+    border-radius: 23px;
+    box-shadow: 8px 12px 4px 0px #FFCD4C;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 41vw;
+    margin-top: -23vw;
+}
