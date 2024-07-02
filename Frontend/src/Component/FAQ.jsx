@@ -1,100 +1,122 @@
-import React, { useEffect } from 'react'
-import Parkrologo from '../assets/Parkrologo.png'
-import faq1 from '../assets/faq1.png'
-import faq2 from '../assets/faq2.png'
-import carlogin from '../assets/carlogin.png'
-import Instagram from '../assets/Instagram.png'
-import Facebook from '../assets/Facebook.png'
-import LinkedIn from '../assets/LinkedIn.png'
-import YouTube from '../assets/YouTube.png'
-import img from '../assets/img.png'
-import profilei from '../assets/profilei.png'
-import { Link } from 'react-router-dom'
-import { useState} from 'react'
-import axios from 'axios'
-
-
+import React, { useEffect, useState } from 'react';
+import Parkrologo from '../assets/Parkrologo.png';
+import faq1 from '../assets/faq1.png';
+import faq2 from '../assets/faq2.png';
+import carlogin from '../assets/carlogin.png';
+import Instagram from '../assets/Instagram.png';
+import Facebook from '../assets/Facebook.png';
+import LinkedIn from '../assets/LinkedIn.png';
+import YouTube from '../assets/YouTube.png';
+import img from '../assets/img.png';
+import profilei from '../assets/profilei.png';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const FAQ = () => {
-const[fullname,setFullname] = useState("");
-const[email,setEmail] = useState("");
-const[MobileNo,setMobileNo] = useState("");
-const[City,setCity] = useState("");
-const[query,setQuery] = useState("");
-const [queries,setQueries] = useState([]);
-const [successMessage, setSuccessMessage] = useState('');
-const [errorMessage, setErrorMessage] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [MobileNo, setMobileNo] = useState("");
+  const [City, setCity] = useState("");
+  const [query, setQuery] = useState("");
+  const [queries, setQueries] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [newQuery, setNewQuery] = useState('');
 
-useEffect(()=>{
-  const fetchQueries = async()=>{
-    try{
-      const resp = await axios.get('http://localhost:3200/getQuery');
-      setQueries(resp.data)
-      // console.log(resp.data);
+  useEffect(() => {
+    const fetchQueries = async () => {
+      try {
+        const resp = await axios.get('http://localhost:3200/getQuery');
+        setQueries(resp.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
-    catch(error){
+    fetchQueries();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!/^\w+([\.-]?\w+)*@gmail\.com$/.test(email)) {
+      setErrorMessage("Email must be a Gmail account (example@gmail.com)");
+      return;
+    }
+    if (MobileNo.length !== 10) {
+      setErrorMessage("Mobile number must be exactly 10 digits long");
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:3200/query', {
+        fullname,
+        email,
+        MobileNo,
+        City,
+        query
+      });
+      setQueries([...queries, response.data]);
+      setSuccessMessage('Query Submitted successfully!');
+      setErrorMessage('');
+      setFullname('');
+      setEmail('');
+      setMobileNo('');
+      setCity('');
+      setQuery('');
+    } catch (error) {
+      setSuccessMessage('');
+      setErrorMessage('Failed to submit your query');
       console.log(error);
     }
-  }
+  };
 
-  fetchQueries();
-},[])
-const handleSubmit = async(e)=>{
-  e.preventDefault();
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3200/getQuery/delete/${id}`);
+      setQueries(queries.filter((q) => q._id !== id));
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('Failed to delete the query');
+    }
+  };
 
-  if (!/^\w+([\.-]?\w+)*@gmail\.com$/.test(email)) {
-    setErrorMessage("Email must be a Gmail account (example@gmail.com)");
-    return;
-  }
+  const handleEdit = (id, currentQuery) => {
+    setEditingId(id);
+    setNewQuery(currentQuery);
+  };
 
-  if (MobileNo.length !== 10) {
-    setErrorMessage("Mobile number must be exactly 10 digits long");
-    return;
-  }
-
-  try{
-    const response = await axios.post('http://localhost:3200/query',{
-      fullname,
-      email,
-      MobileNo,
-      City,
-      query
-    });
-    setQueries([...queries, response.data]);
-    setSuccessMessage('Query Submitted successfully!');
-    setErrorMessage('');
-    setFullname('');
-    setEmail('');
-    setMobileNo('');
-    setCity('');
-    setQuery('');
-
-  }
-  catch(error){
-    setSuccessMessage('');
-    setErrorMessage('Failed to submit your query');
-    console.log(error);
-  }
-}
-
+  const handleUpdate = async (id) => {
+    try {
+      const response = await axios.put(`http://localhost:3200/getQuery/update/${id}`, {
+        query: newQuery
+      });
+      setQueries(queries.map((q) => (q._id === id ? response.data : q)));
+      setEditingId(null);
+      setNewQuery('');
+      setSuccessMessage('Query updated successfully!');
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('Failed to update the query');
+    }
+  };
 
   return (
     <div>
-      <div className='Navbar'><ul>
-      <Link to='/'>
-        <li><img src={Parkrologo} className='logo'></img></li>
-        </Link>
-        <Link to='/'>
-        <li>Home</li>
-        </Link>
-        <li>Popular</li>
-        <li><Link to='/about'>About Us</Link></li>
-        <li>FAQ</li>
-        <li className='logins '><Link to='/login'>Login</Link></li>
-        <Link to='/profiles'>
-          <img src={profilei} className='profilei'></img>
+      <div className='Navbar'>
+        <ul>
+          <Link to='/'>
+            <li><img src={Parkrologo} className='logo' alt="logo"></img></li>
           </Link>
-      </ul>
+          <Link to='/'>
+            <li>Home</li>
+          </Link>
+          <li>Popular</li>
+          <li><Link to='/about'>About Us</Link></li>
+          <li>FAQ</li>
+          <li className='logins'><Link to='/login'>Login</Link></li>
+          <Link to='/profiles'>
+            <img src={profilei} className='profilei' alt="profile"></img>
+          </Link>
+        </ul>
       </div>
       <div>
         <h1 className='faq'>FAQ’s</h1>
@@ -134,9 +156,25 @@ const handleSubmit = async(e)=>{
       </div>
 
       <div>
-        {queries.map((item) => (
+      {queries.map((item) => (
           <div key={item._id}>
-            <p>{item.query}</p>
+            {editingId === item._id ? (
+              <div>
+                <input
+                  type="text"
+                  value={newQuery}
+                  onChange={(e) => setNewQuery(e.target.value)}
+                />
+                <button onClick={() => handleUpdate(item._id)}>Update</button>
+                <button onClick={() => setEditingId(null)}>Cancel</button>
+              </div>
+            ) : (
+              <div>
+                <p>{item.query}</p>
+                <button onClick={() => handleEdit(item._id, item.query)}>Edit</button>
+                <button onClick={() => handleDelete(item._id)}>Delete</button>
+              </div>
+            )}
           </div>
         ))}
       </div>

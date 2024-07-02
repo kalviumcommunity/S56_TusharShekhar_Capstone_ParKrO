@@ -9,8 +9,6 @@ import {Route,Routes } from 'react-router-dom'
 import QRcode from './Component/QRcode'
 
 function App() {
-  
-
   return (
     <>
    
