@@ -69,12 +69,12 @@ app.post('/signup',validateSignup, async (req, res) => {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-app.post('/query' ,validateQuerry, async(req,res)=>{
+app.post('/query' ,limiter,validateQuerry, async(req,res)=>{
 
   const errors = validationResult(req);
   if(!errors.isEmpty()){
@@ -96,6 +96,42 @@ app.post('/query' ,validateQuerry, async(req,res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
+
+app.delete('/getQuery/delete/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const newDelete = await QueryDetails.findByIdAndDelete(id); // Corrected the usage of findByIdAndDelete
+    if (!newDelete) {
+      return res.status(404).send({ message: 'Query not found' }); // Handle case where the query is not found
+    }
+    console.log(newDelete);
+    res.status(200).send(newDelete);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
+});
+
+
+
+app.put('/getQuery/update/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedQuery = await QueryDetails.findByIdAndUpdate(
+      id,
+      { query: req.body.query },
+      { new: true }  // Return the updated document
+    );
+    if (!updatedQuery) {
+      return res.status(404).send({ message: 'Query not found' });
+    }
+    res.status(200).send(updatedQuery);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
+});
+
 
 connectToDB().then(() => {
   app.listen(port, () => {

@@ -1,17 +1,14 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './Component/Home'
 import Login from './Component/Login'
 import About from './Component/About'
 import FAQ from './Component/FAQ'
 import SignUp from './Component/SignUp'
+import Profile from './Component/Profile'
 import {Route,Routes } from 'react-router-dom'
 import QRcode from './Component/QRcode'
 
 function App() {
-  
-
   return (
     <>
    
@@ -22,6 +19,7 @@ function App() {
       <Route path='/faq' element={<FAQ/>}></Route>
       <Route path='/signup' element={<SignUp/>}></Route>
       <Route path='/generate' element={<QRcode/>}></Route>
+      <Route path='/profiles' element={<Profile/>}></Route>
     </Routes>
     </>
   )
