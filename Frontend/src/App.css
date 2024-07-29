@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Madimi+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Ojuju:wght@200..800&family=Poppins:wght@300&display=swap');
 body{
     margin: 0;
-
+    /* font-family: ''; */
 }
 
 .Navbar{
@@ -11,6 +11,7 @@ body{
    justify-content: space-between;
    box-shadow: 0vw 0vw 2vw black;
    height: 6vw;
+   
 }
 .logo{
     width: 14vw;
@@ -24,9 +25,8 @@ ul{
     gap: 7vw;
     font-size: 2vw;
     color: black;
-    font-family: 'Mulish';
+    font-family: 'Muslish';
     font-weight: 500;                            
-    /* font-family: ; */
 }
 /* .home:hover{
     width: 5.5vw;
@@ -35,6 +35,7 @@ ul{
 li{
     height: 5vw;
     /* margin-top: -1.4vw; */
+    
    
 }
 .profilei{
@@ -100,6 +101,18 @@ a:-webkit-any-link {
     background-color: #FFCD4C;
     box-shadow: 3px 7px 4px 0px rgba(0, 0, 0, 0.25);
 }
+.footerbtn2{
+    font-size: 1.8vw;
+    color: white;
+    height: 3vw;
+    border-radius: 0.5vw;
+    border: 1px solid #000;
+    background-color: #070707;
+    box-shadow: 3px 7px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 21vw;
+    width: 12vw;
+    height: 4vw;
+}
 .unlock{
     background: rgba(216, 232, 238, 0.54);
     box-shadow: 4px 7px 7px 0px rgba(0, 0, 0, 0.81);
@@ -151,56 +164,138 @@ a:-webkit-any-link {
 .footer{
     background-color: #FFCD4C;
     box-shadow: 0px 10px 4px 0px rgba(0, 0, 0, 0.80);
-    height: 16vw;
+    height: 40vw;
     margin-top: 16vw;
     border: 2px solid #000;
 }
+.contactusfooter{
+    margin-top: 3vw;
+}
+.line5{
+    margin-left: 51vw;
+    margin-top: -13vw;
+    height: 23vw;
+}
 .phrase{
-    margin-left: 7vw;
+    margin-left: -47vw;
+    margin-top: 7vw;
     color: #252527;
     font-family: 'Mulish';
-    font-size: 1.9vw;
+    font-size: 1.5vw;
     font-style: normal;
     font-weight: 900;
     line-height: normal;
     letter-spacing: 1.5px;
     text-align: center;
 }
+.Company{
+    color: #302E2E;
+    font-family: Mulish;
+    font-size: 20px;
+    font-style: normal;
+    /* display: flex; */
+    font-weight: 800;
+    /* flex-direction: row; */
+    line-height: normal;
+    margin-left: 57vw;
+    margin-bottom: -19.6vw;
+    margin-top: -25vw;
+}
+.legal{
+    color: #302E2E;
+    font-family: Mulish;
+    font-size: 20px;
+    font-style: normal;
+    /* display: flex; */
+    font-weight: 800;
+    /* flex-direction: row; */
+    line-height: normal;
+    margin-left: 76vw;
+}
+.Company li{
+    /* display: flex; */
+    list-style-type: none;
+    gap: 7vw;
+    font-size: 1.4vw;
+    color: black;
+    font-family: 'Muslish';
+    font-weight: 500;  
+    /* margin-left: 2vw; */
+    margin-top: -3vw;
+}  
+.legal li{
+    /* display: flex; */
+    list-style-type: none;
+    /* gap: 7vw; */
+    font-size: 1.4vw;
+    color: black;
+    font-family: 'Muslish';
+    font-weight: 500;  
+    /* margin-left: 2vw; */
+    margin-top: -3vw;
+}   
 .gmail{
     color: #0F0E0E;
     text-align: center;
-    font-family: Noteworthy;
-    font-size: 1vw;
+    font-family: 'Mulish';
+    font-size: 1.3vw;
     text-align: center;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.78px;
-    margin-top: -1.5vw;
+    margin-top: -4.2vw;
+    margin-left: 17vw;
+}
+.copyright{
+    color: #000;
+    text-align: center;
+    font-family: 'Mulish';
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: -19vw;
+    margin-top: 1vw;
 }
 .desimg{
     margin-top: 0.7vw;
     width: 100%;
 }
 .icons{
-    margin-top: 4vw;
-    margin-left: 2vw;
-
+    margin-top: 5vw;
+    margin-left: 8vw;
+    display: flex;
+    color: #302E2E;
+    column-gap: 5vw;
+    font-family: Mulish;
+    /* font-size: 30.192px; */
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
 }
 .ico1 {
     margin-left: 0.4vw;
-    width: 2vw;
+    width: 3vw;
+    margin-top: 1vw;
+    height: 3vw;
 }
 .ico2 {
     margin-left: 0.4vw;
-    width: 2vw;
+    width: 3vw;
+    height: 3vw;
+    margin-top: 1vw;
 }
 .ico3 {
     margin-left: 0.4vw;
-    width: 2vw;
+    width: 3vw;
+    height: 3vw;
+    margin-top: 1vw;
 }
 .ico4 {
     margin-left: 0.4vw;
-    width: 2vw;
+    width: 3vw;
+    height: 3vw;
+    margin-top: 1vw;
 }
 
 /* LOGIN CSS */
@@ -635,16 +730,55 @@ margin-top: 12vw;
 }
 .got{
     color: #252527;
-text-align: center;
-font-family: Mulish;
-font-size: 54px;
-font-style: normal;
-font-weight: 1000;
-line-height: normal;
-letter-spacing: 1.62px;
+    text-align: center;
+    font-family: Mulish;
+    font-size: 54px;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: normal;
+    letter-spacing: 1.62px;
 }
 .faq4{
     margin-left: 14vw;
+}
+.querries{
+    margin-left: 10vw;
+    margin-top: 7vw;
+    color: #252527;
+    letter-spacing: 3px;
+    font-family: Mulish;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+
+}
+/* .question{
+    background-color: wheat;
+
+} */
+.delete{
+    margin-left: 1vw;
+    border-radius: 1vw;
+    font-size: 1vw;
+    width: 6vw;
+}
+.cancel{
+    margin-left: 1vw;
+    border-radius: 1vw;
+    font-size: 1vw;
+    width: 6vw;
+}
+.update{
+    border-radius: 1vw;
+    font-size: 1vw;
+    /* width: vw; */
+    margin-left: 4vw;
+}
+.edit{
+    border-radius: 1vw;
+    font-size: 1vw;
+    width: 6vw;
 }
 
 /* Generate page */
@@ -739,16 +873,40 @@ letter-spacing: 1.62px;
     height: fit-content;
     margin-left: 91vw;
     margin-top: -9vw;
+    display: flex;
+}
+.firstboxname{
+    color: #FFCD4C;
+text-shadow: 2px 1px 0px #A11FDF;
+/* -webkit-text-stroke-width: 1; */
+/* -webkit-text-stroke-color: #000; */
+font-family: Mulish;
+font-size: 18px;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+letter-spacing: 2.7px;
 }
 .secondbox{
     background-color: #FFCD4C;
     border-radius: 17px;
     box-shadow: 6px 9px 4px 0px #A11FDF;
-    width: 20vw;
-    height: fit-content;
+    width: 26vw;
+    height: 39vw;
     /* align-items: cente; */
     margin-left: 3vw;
+    margin-top: 7vw;
+}
+.secondboxinput{
+    margin-left: 4vw;
     margin-top: 2vw;
+    color: #252527;
+font-family: Mulish;
+font-size: 20px;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+letter-spacing: 0.9px;
 }
 .firstimg{
     width: 3vw;
@@ -759,8 +917,93 @@ letter-spacing: 1.62px;
     background-color: #A11FDF;
     border-radius: 23px;
     box-shadow: 8px 12px 4px 0px #FFCD4C;
-    width: fit-content;
-    height: fit-content;
-    margin-left: 41vw;
-    margin-top: -23vw;
+    width: 54vw;
+    height: 29vw;
+    margin-left: 33vw;
+    margin-top: -38.7vw;
+}
+.thirdbox input{
+    display: flex;
+    border-radius: 24vw;
+    border: 1px solid #000;
+    background-color: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #8D8D8D;
+    font-family: "Action Sans";
+    font-size: 1.2vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 6.6vw;
+    margin-top: 0.7vw;
+    width: 38vw;
+    height: 3vw;
+    text-align: center;
+}
+.update{
+    width: 4vw;
+}
+.secondimg{
+    margin-left: 7vw;
+    margin-top: 4vw;
+
+}
+.profileupdate{
+    font-size: 1.3vw;
+    color: white;
+    height: 3vw;
+    border-radius: 0.5vw;
+    border: 1px solid #000;
+    background-color: #070707;
+    box-shadow: 3px 7px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 12vw;
+    width: 11vw;
+    margin-top: 2vw;
+}
+.profilecancel{
+    font-size: 1.3vw;
+    color: white;
+    height: 3vw;
+    border-radius: 0.5vw;
+    border: 1px solid #000;
+    background-color: #070707;
+    box-shadow: 3px 7px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 7vw;
+    width: 11vw;
+}
+.popular{
+    text-shadow: 7px 6px 0px #A11FDF;
+    -webkit-text-stroke-width: 1;
+    -webkit-text-stroke-color: #000;
+    font-family: Mulish;
+    font-size: 101px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 10.1px;
+    color: #FFCD4C;
+}
+.popularline{
+    width: 32vw;
+    height: 1vw;
+    color: #000;
+    border-color: black;
+    background-color: black;
+    margin-left: 2vw;
+    margin-top: -1vw;
+}
+
+.popularparking{
+    background: #FFCD4C;
+    box-shadow: 0px 10px 4px 0px rgba(0, 0, 0, 0.80);
+    color: #252527;
+    text-align: center;
+    font-family: Mulish;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: 1.44px;
+    border-radius: 25px;
+    margin-top: 7vw;
 }

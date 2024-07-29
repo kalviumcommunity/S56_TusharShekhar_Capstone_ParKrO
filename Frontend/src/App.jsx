@@ -7,11 +7,11 @@ import SignUp from './Component/SignUp'
 import Profile from './Component/Profile'
 import {Route,Routes } from 'react-router-dom'
 import QRcode from './Component/QRcode'
+import Popular from './Component/Popular'
 
 function App() {
   return (
     <>
-   
     <Routes>
       <Route path='/' element={<Home/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
@@ -20,6 +20,7 @@ function App() {
       <Route path='/signup' element={<SignUp/>}></Route>
       <Route path='/generate' element={<QRcode/>}></Route>
       <Route path='/profiles' element={<Profile/>}></Route>
+      <Route path='/popular' element={<Popular/>}></Route>
     </Routes>
     </>
   )

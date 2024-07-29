@@ -38,7 +38,11 @@ const SignUp = () => {
       setErrorMessage('');
       window.location.reload();
     } catch (error) {
-      setErrorMessage('Error signing up user: ' + error.message);
+      if (error.response && error.response.status === 400 && error.response.data.message === 'Email is already registered') {
+        setErrorMessage('This email is already registered.');
+      } else {
+        setErrorMessage('Error signing up user: ' + error.message);
+      }
       setSuccessMessage('');
     }
   };
