@@ -1,21 +1,24 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails ,QueryDetails} = require('./User');
+const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
+const QRCode = require('qrcode');
 const app = express();
 const port = 3200;
 
+// Rate Limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100, 
+  max: 100,
   message: 'Too many requests from this IP, please try again later.'
 });
-app.use('/signup',limiter)
+app.use('/signup', limiter);
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
@@ -29,51 +32,20 @@ const validateLogin = [
   body('password').not().isEmpty().withMessage('Password is required'),
 ];
 
-
-const validateQuerry = [
-  body('email').isEmail().withMessage('Invalid email address'),
-  body('fullname').not().isEmpty().withMessage('Full name is required'),
-  body('MobileNo').isMobilePhone('any').withMessage('Invalid MobileNo'),
-  body('City').not().isEmpty().withMessage('City is Required'), 
-  body('query').not().isEmpty().withMessage('Query text is required')
-]
-
-app.get('/get', async (req, res) => {
-  try {
-    const users = await UserDetails.find({});
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-app.get('/getQuery',async(req,res)=>{
-  try{
-    const queryUser = await QueryDetails.find({})
-    res.json(queryUser);
-  }
-  catch(error){
-    console.log(error)
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-})
-
-
-app.post('/signup',validateSignup, async (req, res) => {
-
+// Sign up route
+app.post('/signup', validateSignup, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
   try {
-    const existingUser = await UserDetails.findOne({email:req.body.email});
-    if(existingUser){
+    const existingUser = await UserDetails.findOne({ email: req.body.email });
+    if (existingUser) {
       return res.status(400).json({ message: 'Email is already registered' });
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10); 
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new UserDetails({
       email: req.body.email,
       password: hashedPassword
@@ -81,11 +53,11 @@ app.post('/signup',validateSignup, async (req, res) => {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
   } catch (error) {
-    // console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+// Login route
 app.post('/login', validateLogin, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -103,6 +75,7 @@ app.post('/login', validateLogin, async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
+    // Corrected secret to use consistent JWT secret
     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
@@ -110,6 +83,8 @@ app.post('/login', validateLogin, async (req, res) => {
   }
 });
 
+
+// Token Authentication Middleware
 const authenticateToken = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) {
@@ -117,7 +92,7 @@ const authenticateToken = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'jwtsecret');
+    const decoded = jwt.verify(token, 'your_jwt_secret');
     req.user = decoded;
     next();
   } catch (error) {
@@ -130,7 +105,7 @@ app.get('/protected-route', authenticateToken, (req, res) => {
 });
 
 
-app.post('/query' ,limiter,validateQuerry, async(req,res)=>{
+app.post('/query' ,limiter, async(req,res)=>{
 
   const errors = validationResult(req);
   if(!errors.isEmpty()){
@@ -187,6 +162,43 @@ app.put('/getQuery/update/:id', async (req, res) => {
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
+
+app.post('/generate-qrcode', async (req, res) => {
+  const { fullname, vehicle, mobile, vehicleNo, location } = req.body;
+
+  // Ensure that all required fields are provided
+  if (!fullname || !vehicleNo) {
+    return res.status(400).json({ message: 'Fullname and Vehicle Number are required.' });
+  }
+
+  // Data to be encoded in the QR code
+  const data = `Full Name: ${fullname}, Vehicle Number: ${vehicleNo}`;
+
+  try {
+    // Generate the QR code as a data URL
+    const qrCodeDataUrl = await QRCode.toDataURL(data);
+
+    // Save all the data including the generated QR code to the database
+    const qrCodeEntry = new QrCodeDetails({
+      fullname,
+      vehicle,
+      mobile,
+      vehicleNo,
+      location,
+      qrimg: qrCodeDataUrl,  // Store the QR code image (Base64 string)
+    });
+
+    // Save the entry to the MongoDB collection
+    await qrCodeEntry.save();
+
+    // Send the QR code back to the frontend
+    res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to generate and store QR code' });
+  }
+});
+
 
 
 connectToDB().then(() => {

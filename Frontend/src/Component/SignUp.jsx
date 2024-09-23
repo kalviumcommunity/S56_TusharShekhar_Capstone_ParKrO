@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Parkrologo from '../assets/Parkrologo.png';
 import carlogin from '../assets/carlogin.png';
 import line from '../assets/line.png';
@@ -7,7 +8,7 @@ import Facebook from '../assets/Facebook.png';
 import Apple from '../assets/Apple.png';
 import img from '../assets/img.png';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -32,7 +33,7 @@ const SignUp = () => {
     try {
       const response = await axios.post('http://localhost:3200/signup', {
         email,
-        password
+        password,
       });
       setSuccessMessage('User signed up successfully!');
       setErrorMessage('');
@@ -47,66 +48,86 @@ const SignUp = () => {
     }
   };
 
+  const handleGoogleSignup = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse; // Token returned by Google
+      const userInfo = JSON.parse(atob(credential.split('.')[1])); // Decode JWT
+      const { email, name } = userInfo;
+
+      // Here you could send the user info to your backend or handle it as needed
+      setSuccessMessage(`User signed up with Google successfully! Welcome ${name}`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Error signing up with Google: ' + error.message);
+      setSuccessMessage('');
+    }
+  };
+
   return (
-    <div className='mainlogin'>
-      <h3> 
-        {successMessage && <p className='success-message'>{successMessage}</p>}
-        {errorMessage && <p className='error-message'>{errorMessage}</p>}
-      </h3>
-      <div className='login'>
-        <Link to='/'>
-          <img src={Parkrologo} className='parkrologo' alt='Parkro Logo' />
-        </Link>
-        <h3 className='access'>
-          Access your world with a single
-          <br />
-          click Login Now.
+    <GoogleOAuthProvider clientId="731046338175-gfav6vfgsfigr8qq04ivr43q05h0g7tm.apps.googleusercontent.com">
+      <div className='mainlogin'>
+        <h3>
+          {successMessage && <p className='success-message'>{successMessage}</p>}
+          {errorMessage && <p className='error-message'>{errorMessage}</p>}
         </h3>
-        <img src={carlogin} className='carlogin' alt='Car Login' />
-        <div className='lobox'>
-          <h2 className='welcome'>Welcome !</h2>
-          <h3 className='simplify'>
-            Simplify your parking experience and
+        <div className='login'>
+          <Link to='/'>
+            <img src={Parkrologo} className='parkrologo' alt='Parkro Logo' />
+          </Link>
+          <h3 className='access'>
+            Access your world with a single
             <br />
-            elevate your efficiency with Parkro's
-            <br />
-            solution. Start for free.
+            click Sign Up Now.
           </h3>
-          <form onSubmit={handleSubmit}>
-            <input
-              type='email'
-              placeholder='Email'
-              className='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type='password'
-              placeholder='Password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <h5 className='forgot'>Forgot Password?</h5>
-            <button type='submit' className='logbtn'>
-              Sign Up
-            </button>
-          </form>
-          <div className='left'>
-            <img src={line} alt='Line' />
+          <img src={carlogin} className='carlogin' alt='Car Login' />
+          <div className='lobox'>
+            <h2 className='welcome'>Welcome!</h2>
+            <h3 className='simplify'>
+              Simplify your parking experience and
+              <br />
+              elevate your efficiency with Parkro's
+              <br />
+              solution. Start for free.
+            </h3>
+            <form onSubmit={handleSubmit}>
+              <input
+                type='email'
+                placeholder='Email'
+                className='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <h5 className='forgot'>Forgot Password?</h5>
+              <button type='submit' className='logbtn'>
+                Sign Up
+              </button>
+            </form>
+            <div className='left'>
+              <img src={line} alt='Line' />
+            </div>
+            <div className='right'>
+              <img src={line} alt='Line' />
+            </div>
+            <h6 className='or'>Or Continue with</h6>
+            <div className='loginicon'>
+              <GoogleLogin
+                onSuccess={handleGoogleSignup}
+                onError={() => setErrorMessage('Error signing up with Google')}
+              />
+              <img src={Apple} className='apple' alt='Apple' />
+              <img src={Facebook} className='logface' alt='Facebook' />
+            </div>
           </div>
-          <div className='right'>
-            <img src={line} alt='Line' />
-          </div>
-          <h6 className='or'>Or Continue with</h6>
-          <div className='loginicon'>
-            <img src={GooglePlus} className='gplus' alt='Google Plus' />
-            <img src={Apple} className='apple' alt='Apple' />
-            <img src={Facebook} className='logface' alt='Facebook' />
-          </div>
+          <img src={img} className='logimg' alt='Image' />
         </div>
-        <img src={img} className='logimg' alt='Image' />
       </div>
-    </div>
+    </GoogleOAuthProvider>
   );
 };
 

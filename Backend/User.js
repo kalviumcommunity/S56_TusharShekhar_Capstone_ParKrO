@@ -24,8 +24,18 @@ const ProfileDetail = new mongoose.Schema({
     location:String
 })
 
+const QrCodeDetail = new mongoose.Schema({
+    fullname:String,
+    vehicle:String,
+    mobile:Number,
+    vehicleNo:String,
+    location:String,
+    qrimg:String
+})
+
 const UserDetails = mongoose.model("username" , UserDetail )
 const QueryDetails = mongoose.model("queries" , QueryDetail)
 const ProfileDetails = mongoose.model("profileinfo" , ProfileDetail)
+const QrCodeDetails = mongoose.model("qrcodeinfo",QrCodeDetail)
 
-module.exports = {UserDetails,QueryDetails,ProfileDetails}
+module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails}
