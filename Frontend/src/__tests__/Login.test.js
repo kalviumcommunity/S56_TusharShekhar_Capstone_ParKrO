@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Login from '../Component/Login'; // Adjust the import based on your directory structure
+import Login from '../Component/Login'; 
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -29,7 +29,7 @@ describe('Login Component', () => {
   });
 
   test('renders error message when fields are empty', async () => {
-    fireEvent.click(screen.getByRole('button', { name: /Login/i })); // Changed to target the button specifically
+    fireEvent.click(screen.getByRole('button', { name: /Login/i })); 
     const errorMessage = await screen.findByText(/Please fill in all fields/i);
     expect(errorMessage).toBeInTheDocument();
   });
@@ -46,7 +46,7 @@ describe('Login Component', () => {
       target: { value: 'correctpassword' },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /Login/i })); // Changed to target the button specifically
+    fireEvent.click(screen.getByRole('button', { name: /Login/i })); 
 
     await waitFor(() => {
       expect(localStorage.getItem('token')).toEqual('fakeToken');
@@ -55,6 +55,6 @@ describe('Login Component', () => {
 
   test('navigates to Sign Up page', () => {
     fireEvent.click(screen.getByText(/Sign Up/i));
-    expect(window.location.pathname).toBe('/signup'); // Adjust this based on your routing logic
+    expect(window.location.pathname).toBe('/signup');
   });
 });

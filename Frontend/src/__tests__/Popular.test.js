@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Popular from '../Component/Popular'; // Adjust the import based on your directory structure
+import Popular from '../Component/Popular'; 
 import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('Popular Component', () => {
@@ -27,14 +27,14 @@ describe('Popular Component', () => {
     const dropdownHeader = screen.getByText('Parking-Related Issue Reporting');
     fireEvent.click(dropdownHeader);
     
-    // Check if the dropdown content is displayed
+    
     const dropdownContent = screen.getByText(/Unique QR Code Generation/i);
     expect(dropdownContent).toBeInTheDocument();
 
-    // Click again to close the dropdown
+
     fireEvent.click(dropdownHeader);
     
-    // Check if the dropdown content is not displayed
+    
     expect(dropdownContent).not.toBeVisible();
   });
 
