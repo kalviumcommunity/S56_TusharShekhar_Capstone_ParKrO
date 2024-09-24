@@ -26,7 +26,7 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);  // Store token in localStorage
       setErrorMessage('');
       navigate('/');  // Redirect to home page
-      window.location.reload();  // Optional: To reload the page after login
+      // window.location.reload();  // Optional: To reload the page after login
     } catch (error) {
       setErrorMessage('Error logging in: ' + (error.response?.data?.message || 'Unknown error'));
     }
