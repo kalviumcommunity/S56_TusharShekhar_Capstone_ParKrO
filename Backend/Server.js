@@ -129,17 +129,19 @@ app.post('/forgetpassword', async (req, res) => {
 
     transporter.sendMail(mailOptions, (err) => {
       if (err) {
+        console.error("Error sending OTP email:", err);
         return res.status(500).json({ error: "Error sending OTP email" });
       }
 
       res.status(200).json({ message: "OTP sent successfully" });
     });
   } catch (err) {
+    console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Reset password
+
 app.put('/resetpassword', async (req, res) => {
   try {
     const { email, otp, password } = req.body;
@@ -169,9 +171,11 @@ app.put('/resetpassword', async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Password reset successfully" });
   } catch (err) {
+    console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // Query management
 app.post('/query', limiter, async (req, res) => {
