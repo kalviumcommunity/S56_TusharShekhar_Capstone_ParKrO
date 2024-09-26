@@ -13,7 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate();  // Ensure that you're using `useNavigate` correctly
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,16 +22,13 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3200/login', {
-        email,
-        password
-      });
-      localStorage.setItem('token', response.data.token);
+      const response = await axios.post('http://localhost:3200/login', { email, password });
+      localStorage.setItem('token', response.data.token);  // Store token in localStorage
       setErrorMessage('');
-      navigate('/');
-      window.location.reload('');
+      navigate('/');  // Redirect to home page
+      window.location.reload();  // Optional: To reload the page after login
     } catch (error) {
-      setErrorMessage('Error logging in: ' + error.response.data.message);
+      setErrorMessage('Error logging in: ' + (error.response?.data?.message || 'Unknown error'));
     }
   };
 
@@ -49,7 +46,7 @@ const Login = () => {
         <img src={carlogin} className='carlogin' alt='Car Login' />
         <div className='lobox'>
           <h2 className='welcome'>Welcome Back !</h2>
-          <h3 classNa me='simplify'>
+          <h3 className='simplify'>
             Simplify your parking experience and
             <br />
             elevate your efficiency with Parkro's
@@ -73,9 +70,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <h5 className='forgot'>Forgot Password?</h5>
-            <button type='submit' className='logbtn'>
-              Login
-            </button>
+            <button type='submit' className='logbtn'>Login</button>
           </form>
           <div className='left'>
             <img src={line} alt='Line' />
@@ -89,7 +84,7 @@ const Login = () => {
             <img src={Apple} className='apple' alt='Apple' />
             <img src={Facebook} className='logface' alt='Facebook' />
           </div>
-          <h5 className='not'>Not a member ? </h5>
+          <h5 className='not'>Not a member?</h5>
           <Link to='/signup'>
             <h5 className='sign'>Sign Up</h5>
           </Link>
