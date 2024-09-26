@@ -106,7 +106,6 @@ app.get('/protected-route', authenticateToken, (req, res) => {
 
 
 app.post('/query' ,limiter, async(req,res)=>{
-
   const errors = validationResult(req);
   if(!errors.isEmpty()){
     return res.status(400).json({errors: errors.array()});
