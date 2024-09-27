@@ -8,6 +8,9 @@ const rateLimit = require('express-rate-limit')
 // const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphqlSchema'); // Import the GraphQL schema
+const resolvers = require('./resolvers');  // Import the resolvers
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -23,6 +26,13 @@ app.use('/signup', limiter);
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true
+}));
+
 
 const validateSignup = [
   body('email').isEmail().withMessage('Invalid email address'),
@@ -200,7 +210,12 @@ app.post('/generate-qrcode', async (req, res) => {
   }
 });
 
-
+// GraphQL Endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true,  // Enable GraphiQL for testing
+}));
 
 connectToDB().then(() => {
   app.listen(port, () => {
