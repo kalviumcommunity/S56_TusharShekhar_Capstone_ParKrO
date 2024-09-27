@@ -5,10 +5,12 @@ const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
+// const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
 const app = express();
 const port = 3200;
+require('dotenv').config();
 
 // Rate Limiter
 const limiter = rateLimit({
@@ -76,7 +78,7 @@ app.post('/login', validateLogin, async (req, res) => {
     }
 
     // Corrected secret to use consistent JWT secret
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
