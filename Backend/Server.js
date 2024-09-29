@@ -5,20 +5,26 @@ const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
+
 const nodemailer = require('nodemailer');
 const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
 const connectToDB = require('./db');
+
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphqlSchema'); 
+const resolvers = require('./resolvers'); 
+
 const app = express();
 const port = 3200;
 require('dotenv').config();
 
 
-// Rate Limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: 'Too many requests from this IP, please try again later.'
 });
+
 
 app.use(cors());
 app.use(express.json());
@@ -29,13 +35,26 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL, 
-    pass: process.env.EMAIL_PASSWORD,
+    user: process.env.EMAIL, // shekhar.tushar1198@gmail.com
+    pass: process.env.EMAIL_PASSWORD, // Your email password stored in .env
   },
 });
 
 
 // Validation middleware
+
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true
+}));
+
+
+
 const validateSignup = [
   body('email').isEmail().withMessage('Invalid email address'),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
@@ -46,7 +65,7 @@ const validateLogin = [
   body('password').not().isEmpty().withMessage('Password is required'),
 ];
 
-// Sign up route
+
 app.post('/signup', validateSignup, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -71,7 +90,7 @@ app.post('/signup', validateSignup, async (req, res) => {
   }
 });
 
-// Login route
+
 app.post('/login', validateLogin, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -89,7 +108,11 @@ app.post('/login', validateLogin, async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user._id },process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+    
+
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -100,6 +123,7 @@ app.post('/login', validateLogin, async (req, res) => {
 app.post('/forgetpassword', async (req, res) => {
   try {
     const { email } = req.body;
+
 
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
@@ -138,6 +162,12 @@ app.post('/forgetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
+
+// const authenticateToken = (req, res, next) => {
+//   const token = req.header('Authorization')?.split(' ')[1];
+//   if (!token) {
+//     return res.status(401).json({ message: 'Access denied. No token provided.' });
+
   }
 });
 
@@ -173,6 +203,9 @@ app.put('/resetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
+
+
+
   }
 });
 
@@ -185,6 +218,7 @@ app.post('/query', limiter, async (req, res) => {
   }
 
   try {
+
     const newQuery = new QueryDetails({
       fullname: req.body.fullname,
       email: req.body.email,
@@ -194,6 +228,15 @@ app.post('/query', limiter, async (req, res) => {
     });
     const userQuery = await newQuery.save();
     res.status(200).json(userQuery);
+
+    const id = req.params.id;
+    const newDelete = await QueryDetails.findByIdAndDelete(id); 
+    if (!newDelete) {
+      return res.status(404).send({ message: 'Query not found' });
+    }
+    console.log(newDelete);
+    res.status(200).send(newDelete);
+
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -231,12 +274,17 @@ app.delete('/getQuery/delete/:id', async (req, res) => {
 app.post('/generate-qrcode', async (req, res) => {
   const { fullname, vehicle, mobile, vehicleNo, location } = req.body;
 
+
+  if (!fullname || !vehicleNo) {
+    return res.status(400).json({ message: 'Fullname and Vehicle Number are required.' });
+  }
+
+
   if (!fullname || !vehicleNo) {
     return res.status(400).json({ message: 'Fullname and Vehicle Number are required.' });
   }
 
   const data = `Full Name: ${fullname}, Vehicle Number: ${vehicleNo}`;
-
   try {
     const qrCodeDataUrl = await QRCode.toDataURL(data);
 
@@ -249,6 +297,9 @@ app.post('/generate-qrcode', async (req, res) => {
       qrimg: qrCodeDataUrl,
     });
 
+      // qrimg: qrCodeDataUrl,  
+    // });
+
     await qrCodeEntry.save();
     res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
   } catch (err) {
@@ -256,6 +307,7 @@ app.post('/generate-qrcode', async (req, res) => {
     res.status(500).json({ message: 'Failed to generate and store QR code' });
   }
 });
+
 
 // Protected route with JWT authentication
 const authenticateToken = (req, res, next) => {
@@ -276,6 +328,14 @@ const authenticateToken = (req, res, next) => {
 app.get('/protected-route', authenticateToken, (req, res) => {
   res.status(200).json({ message: 'This is a protected route.' });
 });
+
+// GraphQL Endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true,  
+}));
+
 
 connectToDB().then(() => {
   app.listen(port, () => {
