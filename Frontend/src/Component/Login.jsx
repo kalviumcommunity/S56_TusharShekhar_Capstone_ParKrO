@@ -69,7 +69,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <h5 className='forgot'>Forgot Password?</h5>
+             <Link to='/forgot-password'><h5 className='forgot'>Forgot Password?</h5></Link>
             <button type='submit' className='logbtn'>Login</button>
           </form>
           <div className='left'>

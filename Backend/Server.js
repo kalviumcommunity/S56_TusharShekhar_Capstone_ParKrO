@@ -8,9 +8,13 @@ const QRCode = require('qrcode');
 const nodemailer = require('nodemailer');
 const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
 const connectToDB = require('./db');
+const nodemailer = require('nodemailer');
+const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
+const connectToDB = require('./db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
+
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -44,11 +48,11 @@ const transporter = nodemailer.createTransport({
 app.use(cors());
 app.use(express.json());
 
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: resolvers,
-  graphiql: true
-}));
+// app.use('/graphql', graphqlHTTP({
+//   schema: schema,
+//   rootValue: resolvers,
+//   graphiql: true
+// }));
 
 
 
@@ -106,10 +110,11 @@ app.post('/login', validateLogin, async (req, res) => {
     }
 
 
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+//     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
 
-    
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
 
     res.status(200).json({ token });
   } catch (error) {
@@ -121,7 +126,6 @@ app.post('/login', validateLogin, async (req, res) => {
 app.post('/forgetpassword', async (req, res) => {
   try {
     const { email } = req.body;
-
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
     }
@@ -168,7 +172,6 @@ const authenticateToken = (req, res, next) => {
   }
 });
 
-
 app.put('/resetpassword', async (req, res) => {
   try {
     const { email, otp, password } = req.body;
@@ -182,6 +185,18 @@ app.put('/resetpassword', async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+app.put('/resetpassword', async (req, res) => {
+  try {
+    const { email, otp, password } = req.body;
+
+    if (!email || !otp || !password) {
+      return res.status(400).json({ error: "Email, OTP, and new password are required" });
+    }
+
+    const user = await UserDetails.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
@@ -307,12 +322,16 @@ app.post('/generate-qrcode', async (req, res) => {
       vehicleNo,
       location,
 
+
       qrimg: qrCodeDataUrl,
     });
 
+//       qrimg: qrCodeDataUrl,
+//     });
 
-      qrimg: qrCodeDataUrl,  
-    });
+
+//       qrimg: qrCodeDataUrl,  
+//     });
 
     await qrCodeEntry.save();
     res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
