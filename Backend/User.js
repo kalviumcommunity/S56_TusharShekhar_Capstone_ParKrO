@@ -33,9 +33,24 @@ const QrCodeDetail = new mongoose.Schema({
     qrimg:String
 })
 
+const blogSchema = new mongoose.Schema({
+    title: {
+      type: String,
+      required: true
+    },
+    content: {
+      type: String,
+      required: true
+    },
+    createdAt: {
+      type: String
+    }
+  });
+
 const UserDetails = mongoose.model("username" , UserDetail )
 const QueryDetails = mongoose.model("queries" , QueryDetail)
 const ProfileDetails = mongoose.model("profileinfo" , ProfileDetail)
 const QrCodeDetails = mongoose.model("qrcodeinfo",QrCodeDetail)
+const blogSchemas = mongoose.model("Blog",blogSchema)
 
-module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails}
+module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails,blogSchemas}
