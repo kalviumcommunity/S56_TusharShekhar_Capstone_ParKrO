@@ -5,15 +5,15 @@ const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
-
+// <<<<<<<<< Temporary merge branch 1
 const nodemailer = require('nodemailer');
 const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
 const connectToDB = require('./db');
-
+// =========
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
-
+// >>>>>>>>> Temporary merge branch 2
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -109,10 +109,11 @@ app.post('/login', validateLogin, async (req, res) => {
     }
 
 
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
 
     
-
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+// >>>>>>>>> Temporary merge branch 2
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -124,7 +125,7 @@ app.post('/forgetpassword', async (req, res) => {
   try {
     const { email } = req.body;
 
-
+// <<<<<<<<< Temporary merge branch 1
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
     }
@@ -162,12 +163,6 @@ app.post('/forgetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
-
-// const authenticateToken = (req, res, next) => {
-//   const token = req.header('Authorization')?.split(' ')[1];
-//   if (!token) {
-//     return res.status(401).json({ message: 'Access denied. No token provided.' });
-
   }
 });
 
@@ -184,6 +179,7 @@ app.put('/resetpassword', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
 
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
@@ -203,9 +199,6 @@ app.put('/resetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
-
-
-
   }
 });
 
@@ -294,8 +287,13 @@ app.post('/generate-qrcode', async (req, res) => {
       mobile,
       vehicleNo,
       location,
+
       qrimg: qrCodeDataUrl,
     });
+
+
+      qrimg: qrCodeDataUrl,  
+    // });
 
       // qrimg: qrCodeDataUrl,  
     // });
