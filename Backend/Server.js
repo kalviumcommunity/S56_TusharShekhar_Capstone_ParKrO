@@ -11,10 +11,12 @@ const connectToDB = require('./db');
 const nodemailer = require('nodemailer');
 const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
 const connectToDB = require('./db');
+const nodemailer = require('nodemailer');
+const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
+const connectToDB = require('./db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
-
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -110,10 +112,18 @@ app.post('/login', validateLogin, async (req, res) => {
     }
 
 
+
+    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+    
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+// >>>>>>>>> Temporary merge branch 2
+
 //     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
 
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
 
 
     res.status(200).json({ token });
@@ -163,12 +173,6 @@ app.post('/forgetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
-
-const authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization')?.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-
   }
 });
 
@@ -198,6 +202,7 @@ app.put('/resetpassword', async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
     }
@@ -216,23 +221,6 @@ app.put('/resetpassword', async (req, res) => {
   } catch (err) {
     console.error("Internal Server Error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
-
-app.post('/query' ,limiter, async(req,res)=>{
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({errors: errors.array()});
-  }
-  try{
-    const newQuery =  new QueryDetails({
-      fullname:req.body.fullname,
-      email:req.body.email,
-      MobileNo:req.body.MobileNo,
-      City:req.body.City,
-      query:req.body.query
-    })
-    const userQuery = await newQuery.save();
-    res.status(200).json(userQuery);
-
   }
 });
 
@@ -321,21 +309,12 @@ app.post('/generate-qrcode', async (req, res) => {
       mobile,
       vehicleNo,
       location,
-
-
       qrimg: qrCodeDataUrl,
     });
-
-//       qrimg: qrCodeDataUrl,
-//     });
-
-
-//       qrimg: qrCodeDataUrl,  
-//     });
-
     await qrCodeEntry.save();
     res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
   } catch (err) {
+    console.error("Failed to generate QR code:", err);
     res.status(500).json({ message: 'Failed to generate and store QR code' });
   }
 });
