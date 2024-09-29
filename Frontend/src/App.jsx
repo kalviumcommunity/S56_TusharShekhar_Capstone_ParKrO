@@ -10,7 +10,7 @@ import QRcode from './Component/QRcode'
 import Popular from './Component/Popular'
 import ForgotPassword from './Component/ForgotPassword'
 import ResetPassword from './Component/ResetPassword'
-import VerifyOtp from './Component/VerifyOTP'
+
 
 
 function App() {
@@ -26,7 +26,6 @@ function App() {
       <Route path='/profiles' element={<Profile/>}></Route>
       <Route path='/popular' element={<Popular/>}></Route>
       <Route path='/forgot-password' element={<ForgotPassword />} />
-      <Route path='/verify-otp' element={<VerifyOtp />} />
       <Route path='/reset-password' element={<ResetPassword />} />
     </Routes>
     </>

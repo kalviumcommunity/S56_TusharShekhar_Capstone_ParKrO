@@ -29,8 +29,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL, // shekhar.tushar1198@gmail.com
-    pass: process.env.EMAIL_PASSWORD, // Your email password stored in .env
+    user: process.env.EMAIL, 
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
@@ -89,7 +89,7 @@ app.post('/login', validateLogin, async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id },process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -252,6 +252,7 @@ app.post('/generate-qrcode', async (req, res) => {
     await qrCodeEntry.save();
     res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
   } catch (err) {
+    console.error("Failed to generate QR code:", err);
     res.status(500).json({ message: 'Failed to generate and store QR code' });
   }
 });

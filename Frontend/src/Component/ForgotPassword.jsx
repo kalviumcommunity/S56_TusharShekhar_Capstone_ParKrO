@@ -20,7 +20,7 @@ const ForgotPassword = () => {
       setSuccessMessage('OTP has been sent to your email.');
       setErrorMessage('');
       // Pass email to the next page for OTP verification
-      navigate('/verify-otp', { state: { email } });
+      navigate('/reset-password', { state: { email } });
     } catch (error) {
       setErrorMessage('Error sending OTP: ' + (error.response?.data?.error || 'Unknown error'));
     }
