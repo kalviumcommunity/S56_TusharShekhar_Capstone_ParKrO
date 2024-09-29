@@ -3,7 +3,9 @@ const mongoose = require("mongoose")
 
 const UserDetail = new mongoose.Schema({
     email:String,
-    password:String
+    password:String,
+    otp:String, 
+    otpExpiration:Date,
 })
 
 const QueryDetail =  new mongoose.Schema({
