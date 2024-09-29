@@ -1,8 +1,7 @@
-const bcrypt = require('bcryptjs'); // Assuming you're using bcrypt for password hashing
-const QRCode = require('qrcode');   // For generating QR codes
+const bcrypt = require('bcryptjs');
+const QRCode = require('qrcode');
 
-// Import Mongoose models
-const { UserDetails, QueryDetails, QrCodeDetails } = require('./User');
+const { UserDetails, QueryDetails, QrCodeDetails,blogSchemas } = require('./User');
 
 const resolvers = {
   getUser: async ({ id }) => {
@@ -31,7 +30,19 @@ const resolvers = {
     const qrimg = await QRCode.toDataURL(qrCodeData);
     const newQrCode = new QrCodeDetails({ fullname, vehicle, mobile, vehicleNo, location, qrimg });
     return await newQrCode.save();
-  }
+  },
+  getBlog: async ({ id }) => await blogSchemas.findById(id),
+  getAllBlogs: async () => await blogSchemas.find(),
+  createBlog: async ({ title, content }) => {
+    const newBlog = new blogSchemas({ title, content, createdAt: new Date().toISOString() });
+    return await newBlog.save();
+  },
+  updateBlog: async ({ id, title, content }) => {
+    return await blogSchemas.findByIdAndUpdate(id, { title, content }, { new: true });
+  },
+  deleteBlog: async ({ id }) => await blogSchemas.findByIdAndDelete(id),
+
+  
 };
 
 module.exports = resolvers;

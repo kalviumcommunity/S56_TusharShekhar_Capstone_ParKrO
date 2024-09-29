@@ -33,10 +33,22 @@ const schema = buildSchema(`
     getQrCodes: [QrCodeDetail]
   }
 
+  type Blog {
+    id: ID!
+    title: String!
+    content: String!
+    createdAt: String!
+  }
+
   type Mutation {
     createUser(email: String!, password: String!): User
     createQuery(fullname: String!, email: String!, MobileNo: String!, City: String!, query: String!): QueryDetail
     createQrCode(fullname: String!, vehicle: String!, mobile: Int!, vehicleNo: String!, location: String!): QrCodeDetail
+    
+    createBlog(title: String!, content: String!): Blog
+    updateBlog(id: ID!, title: String, content: String): Blog
+    deleteBlog(id: ID!): Blog
+
   }
 `);
 
