@@ -5,17 +5,16 @@ const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
-// const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('./graphqlSchema'); // Import the GraphQL schema
-const resolvers = require('./resolvers');  // Import the resolvers
+const schema = require('./graphqlSchema'); 
+const resolvers = require('./resolvers'); 
 const app = express();
 const port = 3200;
 require('dotenv').config();
 
-// Rate Limiter
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -23,7 +22,7 @@ const limiter = rateLimit({
 });
 app.use('/signup', limiter);
 
-// Middlewares
+
 app.use(cors());
 app.use(express.json());
 
@@ -44,7 +43,7 @@ const validateLogin = [
   body('password').not().isEmpty().withMessage('Password is required'),
 ];
 
-// Sign up route
+
 app.post('/signup', validateSignup, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -69,7 +68,7 @@ app.post('/signup', validateSignup, async (req, res) => {
   }
 });
 
-// Login route
+
 app.post('/login', validateLogin, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -87,7 +86,7 @@ app.post('/login', validateLogin, async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Corrected secret to use consistent JWT secret
+    
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
@@ -96,7 +95,6 @@ app.post('/login', validateLogin, async (req, res) => {
 });
 
 
-// Token Authentication Middleware
 const authenticateToken = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) {
@@ -142,9 +140,9 @@ app.post('/query' ,limiter, async(req,res)=>{
 app.delete('/getQuery/delete/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const newDelete = await QueryDetails.findByIdAndDelete(id); // Corrected the usage of findByIdAndDelete
+    const newDelete = await QueryDetails.findByIdAndDelete(id); 
     if (!newDelete) {
-      return res.status(404).send({ message: 'Query not found' }); // Handle case where the query is not found
+      return res.status(404).send({ message: 'Query not found' });
     }
     console.log(newDelete);
     res.status(200).send(newDelete);
@@ -154,15 +152,13 @@ app.delete('/getQuery/delete/:id', async (req, res) => {
   }
 });
 
-
-
 app.put('/getQuery/update/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const updatedQuery = await QueryDetails.findByIdAndUpdate(
       id,
       { query: req.body.query },
-      { new: true }  // Return the updated document
+      { new: true }
     );
     if (!updatedQuery) {
       return res.status(404).send({ message: 'Query not found' });
@@ -176,33 +172,21 @@ app.put('/getQuery/update/:id', async (req, res) => {
 
 app.post('/generate-qrcode', async (req, res) => {
   const { fullname, vehicle, mobile, vehicleNo, location } = req.body;
-
-  // Ensure that all required fields are provided
   if (!fullname || !vehicleNo) {
     return res.status(400).json({ message: 'Fullname and Vehicle Number are required.' });
   }
-
-  // Data to be encoded in the QR code
   const data = `Full Name: ${fullname}, Vehicle Number: ${vehicleNo}`;
-
   try {
-    // Generate the QR code as a data URL
     const qrCodeDataUrl = await QRCode.toDataURL(data);
-
-    // Save all the data including the generated QR code to the database
     const qrCodeEntry = new QrCodeDetails({
       fullname,
       vehicle,
       mobile,
       vehicleNo,
       location,
-      qrimg: qrCodeDataUrl,  // Store the QR code image (Base64 string)
+      qrimg: qrCodeDataUrl,  
     });
-
-    // Save the entry to the MongoDB collection
     await qrCodeEntry.save();
-
-    // Send the QR code back to the frontend
     res.status(200).json({ qrCode: qrCodeDataUrl, message: 'QR code generated and stored successfully.' });
   } catch (err) {
     console.error(err);
@@ -214,7 +198,7 @@ app.post('/generate-qrcode', async (req, res) => {
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: resolvers,
-  graphiql: true,  // Enable GraphiQL for testing
+  graphiql: true,  
 }));
 
 connectToDB().then(() => {
