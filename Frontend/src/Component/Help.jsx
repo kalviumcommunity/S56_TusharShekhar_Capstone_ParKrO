@@ -16,6 +16,22 @@ const Help = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!newQuestion) {
+      setError('Please enter a question.');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:3000/api/help', {
+        question: newQuestion,
+      });
+      setQuestions([...questions, response.data]);
+      setNewQuestion('');
+      setError('');
+      setSuccess('Question submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting question:', error);
+      setError('Failed to submit the question.');
+    }
   };
 
   return (
