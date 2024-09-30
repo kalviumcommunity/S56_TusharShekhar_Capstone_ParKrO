@@ -1031,3 +1031,11 @@ letter-spacing: 0.9px;
     font-size: 32px;
     vertical-align: middle;
 }
+
+
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }

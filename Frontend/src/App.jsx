@@ -8,6 +8,7 @@ import Profile from './Component/Profile'
 import {Route,Routes } from 'react-router-dom'
 import QRcode from './Component/QRcode'
 import Popular from './Component/Popular'
+import Help from './Component/Help'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path='/profiles' element={<Profile/>}></Route>
       <Route path='/popular' element={<Popular/>}></Route>
     </Routes>
+      <Help/>
     </>
   )
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
+const { UserDetails ,QueryDetails,QrCodeDetails,HelpDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
