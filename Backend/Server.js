@@ -1,24 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails ,QueryDetails,QrCodeDetails,HelpDetails} = require('./User');
+const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
-const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
+const nodemailer = require('nodemailer');
 const app = express();
 const port = 3200;
 require('dotenv').config();
