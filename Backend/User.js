@@ -23,7 +23,8 @@ const ProfileDetail = new mongoose.Schema({
     vehiclType:String,
     contactNo:String,
     vehicleNo:String,
-    location:String
+    location:String,
+    profileImage: String
 })
 
 const QrCodeDetail = new mongoose.Schema({
@@ -48,11 +49,22 @@ const blogSchema = new mongoose.Schema({
       type: String
     }
   });
+  const HelpDetail = new mongoose.Schema({
+    question: {
+      type: String,
+      required: true
+    },
+    answer: {
+      type: String,
+      default: ''
+    }
+  });
 
 const UserDetails = mongoose.model("username" , UserDetail )
 const QueryDetails = mongoose.model("queries" , QueryDetail)
-const ProfileDetails = mongoose.model("profileinfo" , ProfileDetail)
+const ProfileDetails = mongoose.model("profileinfos" , ProfileDetail)
 const QrCodeDetails = mongoose.model("qrcodeinfo",QrCodeDetail)
 const blogSchemas = mongoose.model("Blog",blogSchema)
+const HelpDetails = mongoose.model("helps",HelpDetail);
 
-module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails,blogSchemas}
+module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails,blogSchemas,HelpDetails}

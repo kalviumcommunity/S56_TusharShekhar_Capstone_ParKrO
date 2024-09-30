@@ -8,6 +8,7 @@ import Profile from './Component/Profile'
 import {Route,Routes } from 'react-router-dom'
 import QRcode from './Component/QRcode'
 import Popular from './Component/Popular'
+import Help from './Component/Help'
 import ForgotPassword from './Component/ForgotPassword'
 import ResetPassword from './Component/ResetPassword'
 
@@ -28,6 +29,7 @@ function App() {
       <Route path='/forgot-password' element={<ForgotPassword />} />
       <Route path='/reset-password' element={<ResetPassword />} />
     </Routes>
+      <Help/>
     </>
   )
 }
