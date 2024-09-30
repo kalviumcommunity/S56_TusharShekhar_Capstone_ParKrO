@@ -1,7 +1,7 @@
 import React from 'react'
 import main from '../assets/main.png'
 import car from '../assets/car.png'
-// import img from '../assets/img.png'
+import img from '../assets/img.png'
 import Instagram from '../assets/Instagram.png'
 import Facebook from '../assets/Facebook.png'
 import LinkedIn from '../assets/LinkedIn.png'
