@@ -21,7 +21,8 @@ const ProfileDetail = new mongoose.Schema({
     vehiclType:String,
     contactNo:String,
     vehicleNo:String,
-    location:String
+    location:String,
+    vehicleImg: String 
 })
 
 const QrCodeDetail = new mongoose.Schema({

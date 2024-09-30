@@ -1,13 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
+const { UserDetails ,QueryDetails,QrCodeDetails,ProfileDetails} = require('./User');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit')
 // const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
+const multer = require('multer');
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -23,6 +24,18 @@ app.use('/signup', limiter);
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');  // Directory where files will be uploaded
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage });
+
 
 const validateSignup = [
   body('email').isEmail().withMessage('Invalid email address'),
@@ -197,6 +210,31 @@ app.post('/generate-qrcode', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to generate and store QR code' });
+  }
+});
+app.post('/profile/update', upload.single('vehicleImg'), async (req, res) => {
+  const { fullname, age, licenseNo, vehicleType, contactNo, vehicleNo, location } = req.body;
+  
+  // Handle image upload if provided
+  const vehicleImg = req.file ? req.file.filename : null;
+
+  try {
+    const updatedProfile = new ProfileDetails({
+      fullname,
+      age,
+      licenseNo,
+      vehicleType,
+      contactNo,
+      vehicleNo,
+      location,
+      vehicleImg
+    });
+
+    await updatedProfile.save();
+    res.status(200).json({ message: 'Profile updated successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to update profile' });
   }
 });
 
