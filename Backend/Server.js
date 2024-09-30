@@ -61,6 +61,30 @@ app.use(express.json());
 //   graphiql: true
 // }));
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL, // shekhar.tushar1198@gmail.com
+    pass: process.env.EMAIL_PASSWORD, // Your email password stored in .env
+  },
+});
+
+
+// Validation middleware
+
+
+app.use(cors());
+app.use(express.json());
+
+// app.use('/graphql', graphqlHTTP({
+//   schema: schema,
+//   rootValue: resolvers,
+//   graphiql: true
+// }));
+
 
 
 const validateSignup = [
@@ -118,14 +142,6 @@ app.post('/login', validateLogin, async (req, res) => {
 
 
 
-    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    
-    // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-// >>>>>>>>> Temporary merge branch 2
-
-//     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -181,18 +197,7 @@ app.post('/forgetpassword', async (req, res) => {
   }
 });
 
-// app.put('/resetpassword', async (req, res) => {
-//   try {
-//     const { email, otp, password } = req.body;
 
-//     if (!email || !otp || !password) {
-//       return res.status(400).json({ error: "Email, OTP, and new password are required" });
-//     }
-
-//     const user = await UserDetails.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
 
 app.put('/resetpassword', async (req, res) => {
   try {
@@ -206,7 +211,6 @@ app.put('/resetpassword', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
 
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
