@@ -1,24 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db'); 
-const { UserDetails ,QueryDetails,QrCodeDetails,HelpDetails} = require('./User');
-const bcrypt = require('bcrypt');
+const { UserDetails ,QueryDetails,QrCodeDetails} = require('./User');
+const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
+const nodemailer = require('nodemailer');
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -33,6 +25,9 @@ const limiter = rateLimit({
 
 app.use(cors());
 app.use(express.json());
+app.get('/', (req, res) => {
+  res.send('Hello');
+});
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -44,21 +39,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD, // Your email password stored in .env
   },
 });
-
-
-// Validation middleware
-
-
-app.use(cors());
-app.use(express.json());
-
-// app.use('/graphql', graphqlHTTP({
-//   schema: schema,
-//   rootValue: resolvers,
-//   graphiql: true
-// }));
-
-
 
 const validateSignup = [
   body('email').isEmail().withMessage('Invalid email address'),
@@ -112,22 +92,7 @@ app.post('/login', validateLogin, async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
-
-
-
-    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-// >>>>>>>>> Temporary merge branch 2
-
-//     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-
-
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -178,18 +143,7 @@ app.post('/forgetpassword', async (req, res) => {
   }
 });
 
-app.put('/resetpassword', async (req, res) => {
-  try {
-    const { email, otp, password } = req.body;
 
-    if (!email || !otp || !password) {
-      return res.status(400).json({ error: "Email, OTP, and new password are required" });
-    }
-
-    const user = await UserDetails.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
 
 app.put('/resetpassword', async (req, res) => {
   try {
@@ -203,7 +157,6 @@ app.put('/resetpassword', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
 
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
