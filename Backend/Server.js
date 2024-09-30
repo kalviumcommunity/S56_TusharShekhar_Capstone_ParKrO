@@ -277,12 +277,20 @@ app.post('/generate-qrcode', async (req, res) => {
 app.get("/api/help", async (req, res) => {
   try {
     const helpDetails = await HelpDetails.find();
+
+    // If no help details are found, return an appropriate message
+    if (helpDetails.length === 0) {
+      return res.status(404).json({ message: "No help details found" });
+    }
+
     res.status(200).json(helpDetails);
   } catch (error) {
-    console.error("Error fetching help details:", error.message);
+    console.error("Error fetching help details:", error); // Log the error without exposing sensitive info
+
+    // Return a generic error message to the client
     res
       .status(500)
-      .json({ message: "Error fetching help details", error: error.message });
+      .json({ message: "An error occurred while fetching help details" });
   }
 });
 
