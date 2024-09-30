@@ -26,7 +26,7 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);  // Store token in localStorage
       setErrorMessage('');
       navigate('/');  // Redirect to home page
-      window.location.reload();  // Optional: To reload the page after login
+      // window.location.reload();  // Optional: To reload the page after login
     } catch (error) {
       setErrorMessage('Error logging in: ' + (error.response?.data?.message || 'Unknown error'));
     }
@@ -69,7 +69,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <h5 className='forgot'>Forgot Password?</h5>
+             <Link to='/forgot-password'><h5 className='forgot'>Forgot Password?</h5></Link>
             <button type='submit' className='logbtn'>Login</button>
           </form>
           <div className='left'>
