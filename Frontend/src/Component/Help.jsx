@@ -9,7 +9,20 @@ const Help = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-
+  useEffect(() => {
+    if (isOpen) {
+      const fetchQuestions = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/api/help');
+          setQuestions(response.data);
+        } catch (error) {
+          console.error('Error fetching questions:', error);
+        }
+      };
+      fetchQuestions();
+    }
+  }, [isOpen]);
+  
   const toggleHelpBox = () => {
     setIsOpen(!isOpen);
   };

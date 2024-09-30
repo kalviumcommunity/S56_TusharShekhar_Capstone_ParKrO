@@ -285,6 +285,23 @@ app.get("/api/help", async (req, res) => {
       .json({ message: "Error fetching help details", error: error.message });
   }
 });
+app.post('/api/help', async (req, res) => {
+  try {
+    const { question } = req.body;
+    if (!question) {
+      return res.status(400).json({ message: 'Question is required' });
+    }
+    const newHelpDetail = new HelpDetails({
+      question,
+      answer: '' 
+    });
+    const savedHelpDetail = await newHelpDetail.save(); 
+    res.status(201).json(savedHelpDetail); 
+  } catch (error) {
+    console.error('Error posting help question:', error.message);
+    res.status(500).json({ message: 'Error posting help question', error: error.message });
+  }
+});
 
 // Protected route with JWT authentication
 const authenticateToken = (req, res, next) => {
