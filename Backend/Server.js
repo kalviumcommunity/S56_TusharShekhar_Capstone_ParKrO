@@ -274,6 +274,17 @@ app.post('/generate-qrcode', async (req, res) => {
   }
 });
 
+app.get("/api/help", async (req, res) => {
+  try {
+    const helpDetails = await HelpDetails.find();
+    res.status(200).json(helpDetails);
+  } catch (error) {
+    console.error("Error fetching help details:", error.message);
+    res
+      .status(500)
+      .json({ message: "Error fetching help details", error: error.message });
+  }
+});
 
 // Protected route with JWT authentication
 const authenticateToken = (req, res, next) => {
