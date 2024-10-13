@@ -36,7 +36,7 @@ const About = () => {
       <h1 className='about'>ABOUT US</h1>
       <hr className='line'></hr>
       <div >
-        <img src={about1} className='about1'></img>
+      <img src={about1} className='about1' alt='About Image' />
       </div>
       <div className='teparkro'>
         <h3 className='prkro'>"ParKrO revolutionizes 
