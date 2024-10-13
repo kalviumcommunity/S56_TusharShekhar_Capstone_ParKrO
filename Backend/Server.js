@@ -215,7 +215,6 @@ app.post('/generate-qrcode', async (req, res) => {
 app.post('/profile/update', upload.single('vehicleImg'), async (req, res) => {
   const { fullname, age, licenseNo, vehicleType, contactNo, vehicleNo, location } = req.body;
   
-  // Handle image upload if provided
   const vehicleImg = req.file ? req.file.filename : null;
 
   try {
@@ -233,7 +232,6 @@ app.post('/profile/update', upload.single('vehicleImg'), async (req, res) => {
     await updatedProfile.save();
     res.status(200).json({ message: 'Profile updated successfully!' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Failed to update profile' });
   }
 });
