@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit')
 // const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
+const path = require('path');
 const multer = require('multer');
 const app = express();
 const port = 3200;
