@@ -36,7 +36,7 @@ const QrCodeDetail = new mongoose.Schema({
 
 const UserDetails = mongoose.model("username" , UserDetail )
 const QueryDetails = mongoose.model("queries" , QueryDetail)
-const ProfileDetails = mongoose.model("profileinfo" , ProfileDetail)
+const ProfileDetails = mongoose.model("profileinfos" , ProfileDetail)
 const QrCodeDetails = mongoose.model("qrcodeinfo",QrCodeDetail)
 
 module.exports = {UserDetails,QueryDetails,ProfileDetails,QrCodeDetails}
