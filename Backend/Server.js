@@ -8,8 +8,15 @@ const rateLimit = require('express-rate-limit')
 // const jwtSecret = process.env.JWT_SECRET
 const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
+const nodemailer = require('nodemailer');
+const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
+const connectToDB = require('./db');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphqlSchema'); 
+const resolvers = require('./resolvers'); 
 const path = require('path');
 const multer = require('multer');
+
 const app = express();
 const port = 3200;
 require('dotenv').config();
@@ -27,6 +34,15 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL, 
+    pass: process.env.EMAIL_PASSWORD, 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');  // Directory where files will be uploaded
@@ -90,8 +106,6 @@ app.post('/login', validateLogin, async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
-
-    // Corrected secret to use consistent JWT secret
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
@@ -108,6 +122,35 @@ const authenticateToken = (req, res, next) => {
   }
 
   try {
+    const { email, otp, password } = req.body;
+
+    if (!email || !otp || !password) {
+      return res.status(400).json({ error: "Email, OTP, and new password are required" });
+    }
+
+    const user = await UserDetails.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (user.otp !== otp) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    if (user.otpExpiration <= Date.now()) {
+      return res.status(400).json({ error: "OTP expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.otp = null;
+    user.otpExpiration = null;
+
+    await user.save();
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (err) {
+    console.error("Internal Server Error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+
     const decoded = jwt.verify(token, 'your_jwt_secret');
     req.user = decoded;
     next();
