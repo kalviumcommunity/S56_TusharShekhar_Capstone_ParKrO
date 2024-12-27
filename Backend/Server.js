@@ -8,12 +8,6 @@ const QRCode = require('qrcode');
 const nodemailer = require('nodemailer');
 const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
 const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
-const nodemailer = require('nodemailer');
-const { UserDetails, QueryDetails, QrCodeDetails, ProfileDetails } = require('./User');
-const connectToDB = require('./db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphqlSchema'); 
 const resolvers = require('./resolvers'); 
@@ -38,8 +32,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL, // shekhar.tushar1198@gmail.com
-    pass: process.env.EMAIL_PASSWORD, // Your email password stored in .env
+    user: process.env.EMAIL, 
+    pass: process.env.EMAIL_PASSWORD, 
   },
 });
 
@@ -110,22 +104,7 @@ app.post('/login', validateLogin, async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
-
-
-
-    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-// >>>>>>>>> Temporary merge branch 2
-
-//     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-
-
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -188,21 +167,6 @@ app.put('/resetpassword', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
-app.put('/resetpassword', async (req, res) => {
-  try {
-    const { email, otp, password } = req.body;
-
-    if (!email || !otp || !password) {
-      return res.status(400).json({ error: "Email, OTP, and new password are required" });
-    }
-
-    const user = await UserDetails.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-
     if (user.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
     }
